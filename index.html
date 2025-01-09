@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badger Couriers - Parcel Delivery</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafc;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(to right, #0074d9, #005fa3);
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            font-size: 1rem;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0074d9;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        input, select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #0074d9;
+            box-shadow: 0 0 5px rgba(0, 116, 217, 0.5);
+        }
+
+        button {
+            padding: 15px;
+            background-color: #0074d9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        #resultPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 80%;
+            max-width: 400px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        #resultPopup h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #0074d9;
+        }
+
+        #resultPopup p {
+            font-size: 1rem;
+            margin: 10px 0 20px;
+        }
+
+        #resultPopup button {
+            background-color: #ff4136;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        #paymentContainer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #paymentButton {
+            background-color: #28a745;
+            font-size: 1rem;
+            padding: 10px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #paymentButton:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+ 
+    <main>
+        <section>
+            <h2>Book Your Delivery</h2>
+            <form id="deliveryForm">
+                <label for="pickupAddress">Pickup Address:</label>
+                <input type="text" id="pickupAddress" name="pickupAddress" placeholder="Enter pickup address" required>
+
+                <label for="deliveryAddress">Delivery Address:</label>
+                <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Enter delivery address" required>
+
+                <label for="parcelSize">Parcel Size (cm):</label>
+                <input type="number" id="parcelSize" name="parcelSize" placeholder="Length x Width x Height" required>
+
+                <label for="parcelWeight">Parcel Weight (kg):</label>
+                <input type="number" id="parcelWeight" name="parcelWeight" placeholder="Enter weight in kg" required>
+
+                <label for="distance">Distance (km):</label>
+                <input type="number" id="distance" name="distance" placeholder="Enter distance in km" required>
+
+                <button type="button" id="calculateCost">Calculate Cost</button>
+            </form>
+        </section>
+        <div id="paymentContainer">
+            <button id="paymentButton" onclick="processPayment()">Proceed to Payment</button>
+        </div>
+    </main>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div id="resultPopup">
+        <h3>Estimated Delivery Cost</h3>
+        <p id="costResult">$0.00</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        document.getElementById("calculateCost").addEventListener("click", function() {
+            const size = document.getElementById("parcelSize").value;
+            const weight = document.getElementById("parcelWeight").value;
+            const distance = document.getElementById("distance").value;
+
+            if (size && weight && distance) {
+                const cost = (size * 0.02) + (weight * 0.5) + (distance * 0.3);
+                document.getElementById("costResult").textContent = `$${cost.toFixed(2)}`;
+                openPopup();
+            } else {
+                alert("Please fill in all the fields to calculate the cost.");
+            }
+        });
+
+        function openPopup() {
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("resultPopup").style.transform = "translate(-50%, -50%) scale(1)";
+        }
+
+        function closePopup() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("resultPopup").style.transform = "translate(-50%, -50%) scale(0)";
+        }
+
+        function processPayment() {
+            alert("Redirecting to payment gateway...");
+        }
+    </script>
+</body>
+</html>
